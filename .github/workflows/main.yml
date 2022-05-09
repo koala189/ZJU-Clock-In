@@ -10,9 +10,29 @@ on:
     - cron: 0 */8 * * *
 
 jobs:
-  ClockIn:
+  main:
     runs-on: ubuntu-latest
-    if: github.event.repository.owner.id == github.event.sender.id
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - username: ZJU_USERNAME
+            password: ZJU_PASSWORD
+            dingtalk_token: DINGTALK_TOKEN
+#           - username: ZJU_USERNAME1
+#             password: ZJU_PASSWORD1
+#             dingtalk_token: DINGTALK_TOKEN1
+#           - username: ZJU_USERNAME2
+#             password: ZJU_PASSWORD2
+#             dingtalk_token: DINGTALK_TOKEN2
+#           - username: ZJU_USERNAME3
+#             password: ZJU_PASSWORD3
+#           - username: ZJU_USERNAME4
+#             password: ZJU_PASSWORD4
+#           - username: ZJU_USERNAME5
+#             password: ZJU_PASSWORD5
+#           - username: ZJU_USERNAME6
+#             password: ZJU_PASSWORD6
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -29,4 +49,4 @@ jobs:
           ACCOUNT: ${{ secrets.ACCOUNT }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
-          python3 clock-in.py ${ACCOUNT} ${PASSWORD} ${EAI_SESS}
+          python3 clock-in.py ${ACCOUNT} ${PASSWORD}
